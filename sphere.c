@@ -7,7 +7,7 @@
 float sphereRadius = 1.0f;  // Initial radius of the sphere
 GLuint texture;              // Texture ID
 
-// Rotation angles
+// rotation X,Y
 float rotationX = 0.0f;
 float rotationY = 0.0f;
 int lastMouseX, lastMouseY;
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
     gluPerspective(45.0, 800.0 / 600.0, 0.1, 100.0);
     glMatrixMode(GL_MODELVIEW);
 
-    // Main loop
+    // main loop
     int running = 1;
     SDL_Event event;
     while (running) {
@@ -90,42 +90,52 @@ int main(int argc, char* argv[]) {
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
 
-                // Calculate the change in mouse position
+                // calculate the change in mouse position
+                //
                 int deltaX = mouseX - lastMouseX;
                 int deltaY = mouseY - lastMouseY;
 
-                // Update rotation angles
-                rotationY += deltaX * 0.5f;  // Rotate around Y-axis
-                rotationX += deltaY * 0.5f;  // Rotate around X-axis
+                // update rotation angles
+                //
+                rotationY += deltaX * 0.5f;  // rotate around Y-axis
+                rotationX += deltaY * 0.5f;  // rotate around X-axis
 
-                // Store current mouse position
+                // store current mouse position
+                //
                 lastMouseX = mouseX;
                 lastMouseY = mouseY;
             }
         }
 
-        // Clear the screen and depth buffer
+        // clear the screen and depth buffer
+        //
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glLoadIdentity();
 
-        // Position the camera
+        // position the camera
+        //
         glTranslatef(0.0f, 0.0f, -5.0f);
 
-        // Apply rotations
+        // apply rotations
+        //
         glRotatef(rotationX, 1.0f, 0.0f, 0.0f);  // Rotate around X-axis
         glRotatef(rotationY, 0.0f, 1.0f, 0.0f);  // Rotate around Y-axis
 
-        // Bind the texture
+        // bind the texture
+        //
         glBindTexture(GL_TEXTURE_2D, texture);
 
-        // Draw the sphere
+        // draw the sphere
+        //
         drawSphere();
 
-        // Swap the window buffers
+        // swap the window buffers
+        //
         SDL_GL_SwapWindow(window);
     }
 
-    // Cleanup
+    // free resources
+    //
     glDeleteTextures(1, &texture);
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(window);
